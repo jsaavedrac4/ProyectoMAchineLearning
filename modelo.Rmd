@@ -1,0 +1,146 @@
+---
+title: "Modelo Predictivo"
+output: html_notebook
+---
+
+##Creando particiones
+```{r}
+datos = createDataPartition(dataset$campania, p = 0.7,list = FALSE)
+
+#Particion Entrenamiento
+entrenamiento = dataset[datos,]
+
+#Particion Prueba
+prueba = dataset[-datos,]
+```
+
+#Algoritmos
+
+##Arboles de Decisiones
+```{r}
+#Semilla
+set.seed(2222)
+
+arbol = rpart(campania~., data = entrenamiento, method = 'class')
+
+arbolgrafico = rpart.plot(arbol)
+```
+
+###Prediccion
+```{r}
+arbolprediccion = predict(arbol, prueba, type = "class")
+
+#Matriz de Confusion
+arboltabla = table(arbolprediccion,prueba$campania)
+```
+
+###Precision
+```{r}
+arbolprecision = sum(diag(arboltabla))/sum(arboltabla)
+print(arboltabla)
+cat(c("Precision: ", round(arbolprecision, 4)*100,"%"))
+```
+
+##Naive Bayes
+```{r}
+#Semilla
+set.seed(2222)
+
+nb = naiveBayes(formula = campania~., data = entrenamiento)
+```
+
+###Prediccion
+```{r}
+nbprediccion = predict(nb, newdata = prueba[-1], type = "class")
+
+#Matriz de Confusion
+nbtabla = table(prueba[,1], nbprediccion)
+```
+
+###Precision
+```{r}
+nbprecision = sum(diag(nbtabla))/sum(nbtabla)
+print(nbtabla)
+cat(c("Precision: ", round(nbprecision, 4)*100,"%"))
+```
+
+##Random Forest
+```{r}
+#semilla
+set.seed(2222)
+
+rf = randomForest(campania~ ., data = entrenamiento, nodesize = 2, ntree = 100)
+```
+
+###Prediccion
+```{r}
+rfprediccion = predict(rf, prueba, type = "class")
+
+#Matriz de Confusion
+rftabla = table(rfprediccion,prueba$campania)
+```
+
+###Precision
+```{r}
+rfprecision = sum(diag(rftabla))/sum(rftabla)
+print(rftabla)
+cat(c("Precision: ", round(rfprecision, 4)*100,"%"))
+```
+
+##SVM
+```{r}
+#semilla
+set.seed(2222)
+
+svm = svm(formula = campania~., data = entrenamiento)
+```
+
+###Prediccion
+```{r}
+svmprediccion = predict(svm, type = 'response', newdata = prueba[-1])
+
+
+# Matriz de Confusion
+svmtabla = table(prueba[,1], svmprediccion)
+```
+
+###Precision
+```{r}
+svmprecision = sum(diag(svmtabla))/sum(svmtabla)
+print(svmtabla)
+cat(c("Precision: ", round(svmprecision, 4)*100,"%"))
+```
+
+##Redes Nauronales
+```{r}
+nn = train(campania~., data=entrenamiento, method="nnet", metric=metric, trControl=control,hidden=c(5,10,15,20,25))
+```
+
+###Prediccion
+```{r}
+nnprediccion = predict(nn,prueba)
+
+
+# Matriz de Confusion
+nntabla = table(nnprediccion,prueba$campania)
+```
+
+###Precision
+```{r}
+nnprecision = sum(diag(nntabla))/sum(nntabla)
+print(nntabla)
+cat(c("Precision: ", round(nnprecision, 4)*100,"%"))
+```
+
+```{r}
+save.image("MaysiProject.Rdata")
+```
+
+
+
+
+
+
+
+
+

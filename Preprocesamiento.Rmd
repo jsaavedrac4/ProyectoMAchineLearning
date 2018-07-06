@@ -1,0 +1,25 @@
+---
+title: "Preprocesamiento"
+output: html_notebook
+---
+
+##Procesamiento de los Datos
+```{r}
+maysi$inversion = rowSums(maysi[,10:13])
+maysi$ganancia = maysi[,14]-maysi[,15]
+maysi$mes= format(maysi$fecha, "%m")
+maysi$anio= format(maysi$fecha, "%Y")
+maysi$mes = as.numeric(maysi$mes)
+maysi$anio = as.numeric(maysi$anio)
+maysi$fecha = as.Date(maysi$fecha)
+maysi$campania = as.factor(maysi$campania)
+maysi$id_modelo = as.factor(maysi$id_modelo)
+maysi$modelo = as.factor(maysi$modelo)
+maysi$tallas = as.factor(maysi$tallas)
+maysi$color = as.factor(maysi$color)
+```
+
+##Seleccion de los datos
+```{r}
+dataset= maysi[,c(2,10,11,12,13)]
+```

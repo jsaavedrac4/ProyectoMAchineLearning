@@ -1,0 +1,197 @@
+---
+title: "Exploracion Graficos"
+output: html_notebook
+---
+
+##Instalacion de paquetes
+```{r}
+install.packages("dplyr")
+```
+
+##Carga de Paquetes
+```{r}
+library(dplyr)
+```
+
+
+#Consultas
+
+###1.Total de produccion de docenas semanales
+```{r}
+c1<-maysi%>%group_by(fecha)%>%summarise(cantidad_docenas=sum(prod_docena))
+c1
+```
+
+###2.Total de metros de cuero que se utiliza para la fabricacion por docena en cada semana
+```{r}
+c2<-maysi%>%group_by(fecha)%>%summarise(cantidad_material=sum(material_metros))
+c2
+```
+
+###3.Cantidad Total de docenas producidas en cada mes de cada año segun las tallas
+```{r}
+c3<-maysi%>%group_by(anio,mes,tallas)%>%summarise(cantidad_docenas=sum(prod_docena))
+c3
+```
+
+###4.Cantidad Total del material que se utilizo en cada mes de cada año segun las tallas
+```{r}
+c4<-maysi%>%group_by(anio,mes,tallas)%>%summarise(cantidad_material=sum(material_metros))
+c4
+```
+
+###5. Cantidad de docenas producidas cada año en cada campaña
+```{r}
+c5<-maysi%>%group_by(anio,campania)%>%summarise(cantidad_docenas=sum(prod_docena))
+c5
+```
+
+###6.Cantidad total de docenas desde el año 2010 al 2017 por cada campaña
+```{r}
+c6<-maysi%>%group_by(campania)%>%summarise(cantidad_docenas=sum(prod_docena))
+c6
+```
+
+###7.Cantidad total de material en metros utilizados en cada talla desde el 2010 hasta el 2017
+```{r}
+c7<-maysi%>%group_by(tallas)%>%summarise(cantidad_material=sum(material_metros))
+c7
+```
+
+###8.Cantidad total de docenas producidas por cada año de cada campaña segun el color
+```{r}
+c8<-maysi%>%group_by(anio,campania,color)%>%summarise(cantidad_docenas=sum(prod_docena))
+c8
+```
+
+###9. Cantidad docenas de cada campaña por color del todo el año 2010 segun cada mes
+```{r}
+c9<-maysi%>%group_by(anio,mes,campania,color)%>%filter(anio==2010)%>%summarise(cantidad_docenas=sum(prod_docena))
+c9
+```
+
+###10.total de docenas segun la talla y cada color 
+```{r}
+c10<-maysi%>%group_by(tallas,color)%>%summarise(cantidad_docenas=sum(prod_docena))
+c10
+```
+
+###11.Total de material utilizado segun la cantidad total de docenas producidad porel color en su respectiva campaña
+```{r}
+c11<-maysi%>%group_by(campania,color)%>%summarise(cantidad_docenas=sum(prod_docena),cantidad_material=sum(material_metros))
+c11
+```
+
+### 12. Cantidad total de material utilizado segun las docenas producidas de cada campaña del mes de Enero desde el 201 al 2017
+```{r}
+c12<-maysi%>%group_by(anio,mes,campania,color)%>%filter(mes==1)%>%summarise(cantidad_docenas=sum(prod_docena),cantidad_material=sum(material_metros))
+c12
+```
+
+###13.Cantidad de docenas producidas por docenas segun cada modelo de las campania Botas desde el año 2010 al 2017
+```{r}
+c13<-maysi%>%group_by(modelo)%>%filter(campania=="Botas")%>%summarise(cantidad_docenas=sum(prod_docena))
+c13
+```
+
+###14.Cantidad de modelos de la campañia botas que no se producjeron cada año
+```{r}
+c14<-maysi%>%group_by(anio,prod_docena)%>%filter(campania=="Botas",prod_docena==0)%>%summarise(n=n())
+c14
+```
+
+###15.Cantidad de material utilizado segun la cantidad de docenas producidad en el mes de Mayo de la campaña de Botas segun su color
+```{r}
+c15<-maysi%>%group_by(campania,color)%>%filter(campania=="Botas",mes==5)%>%summarise(cantidad_docenas=sum(prod_docena),cantidad_material=sum(material_metros))
+c15
+```
+
+###16.Cantidad de docenas producidas en en el año 2017 segun la campaña Escolar con su respectivo modelo
+```{r}
+c16<-maysi%>%group_by(anio,campania,modelo)%>%filter(anio==2017,campania=="Escolar")%>%summarise(cantidad_docenas=sum(prod_docena))
+c16
+```
+
+###17.Cantidas de inversion de las plantas por cada año segun la campaña y el tamaño de las tallas.
+```{r}
+c17<-maysi%>%group_by(anio,campania, tallas)%>%summarise(inversion_planta=sum(costo_planta))
+c17
+```
+
+###18. Cantidad de inversion por el material utilizado en metros segun cada año y por cada campañia
+```{r}
+c18<-maysi%>% group_by(anio,campania)%>%summarise(inversion_material=sum(costo_material))
+c18
+```
+
+###19.Cantidad de inversion en la mano de obra utilizado en cada año segun la campaña
+```{r}
+c19<-maysi%>%group_by(anio,campania)%>%summarise(inversion_mano_obra=sum(mano_obra))
+c19
+```
+
+###20.Cantidad de inversion en el año 2015 segun cada mes
+```{r}
+c20<-maysi%>%group_by(anio,mes)%>%filter(anio==2015)%>%summarise(inversion_total=sum(inversion))
+c20
+```
+
+###21.Total de material en metros utilizados con la cantidad del costo invertido segun la cantidad de cada anio en cada campañia
+```{r}
+c21<-maysi%>%group_by(anio,campania)%>%summarise(cant_material=sum(material_metros),inversion_material=sum(costo_material))
+c21
+```
+
+###22.CAntidad inversion de planta segun la cantidad de docenas producidad en cada año
+```{r}
+c22<-maysi%>%group_by(anio)%>%summarise(cant_docenas=sum(prod_docena),inversion_planta=sum(costo_planta))
+c22
+```
+
+###23 Ganancia total de cada año segun la camapania
+```{r}
+c23<-maysi%>%group_by(anio,campania)%>%summarise(ganancia_total=sum(ganancia))
+c23
+```
+
+###24.Ganancia total segun cada mes del año 2012,2013 y 2016
+```{r}
+c24<-maysi%>%group_by(anio,mes)%>%filter(anio==c(2012,2013,2016))%>%summarise(ganancia=sum(ganancia))
+c24
+```
+
+###25.Ganancia segun la cantidad docenas producidas de cada campaña en cada año
+```{r}
+c25<-maysi%>%group_by(anio,campania)%>%summarise(cantidad_docenas=sum(prod_docena),ganancia_docena=sum(ganancia))
+c25
+```
+
+###26.Ganancia segun la cantidad de docenas producidas por talla en cada año segun cada campaña
+```{r}
+c26<-maysi%>%group_by(anio,campania,tallas)%>%summarise(cantidad_docenas=sum(prod_docena),ganancia_tallas=sum(ganancia))
+c26
+```
+
+###27.Ganancia total en cada año
+```{r}
+c27<-maysi%>%group_by(anio)%>%summarise(ganancia_total=sum(ganancia))
+c27
+```
+
+###28.Inversion de otros costos segun la cantidad de docenas producidas en cada campaña por año
+```{r}
+c28<-maysi%>%group_by(anio,campania)%>%summarise(cantidad_docenas=sum(prod_docena),inversion_otros=sum(otros_costos))
+c28
+```
+
+###29.Ganancia total en la campaña solo de charol en cada año
+```{r}
+c29<-maysi%>%group_by(anio,mes,campania)%>%summarise(ganancia_total=sum(ganancia))
+c29
+```
+
+###30.inversion total de cada año
+```{r}
+c30<-maysi%>%group_by(anio)%>%summarise(inversion_total=sum(inversion))
+c30
+```

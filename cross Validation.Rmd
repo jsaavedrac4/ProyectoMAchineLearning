@@ -1,0 +1,58 @@
+---
+title: "Cross Validation"
+output: html_notebook
+---
+
+##Test
+```{r}
+# Correr algoritmos usando 10 fold cross validation
+control = trainControl(method="cv", number=10)
+metric = "Accuracy"
+```
+
+###SVM
+```{r}
+set.seed(2222)
+fit.svm = train(campania~., data=entrenamiento, method="svmRadial", metric=metric, trControl=control)
+```
+
+###Arboles de Decisiones
+```{r}
+set.seed(2222)
+fit.cart = train(campania~., data=entrenamiento, method="rpart", metric=metric, trControl=control)
+```
+
+###Random Forest
+```{r}
+set.seed(2222)
+fit.rf = train(campania~., data=entrenamiento, method="rf", metric=metric, trControl=control)
+```
+
+###Naive Bayes
+```{r}
+set.seed(2222)
+fit.nb = train(campania~., data=entrenamiento, method="nb", metric=metric, trControl=control)
+```
+
+###Redes Neuronales
+```{r}
+set.seed(2222)
+fit.nnet = train(campania~., data=entrenamiento, method="nnet", metric=metric, trControl= control,hidden=c(5,10,15,20,25))
+```
+
+##Resultados
+```{r}
+resultados = resamples(list(svm=fit.svm,ad=fit.cart ,rf=fit.rf,nb=fit.nb,nnet=fit.nnet))
+summary(resultados)
+```
+
+```{r}
+dotplot(resultados)
+```
+
+```{r}
+predicciones = predict(fit.rf, prueba)
+confusionMatrix(predicciones, prueba$campania)
+```
+
+

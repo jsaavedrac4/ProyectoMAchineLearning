@@ -1,0 +1,216 @@
+---
+title: "Exploracion Graficos"
+output: html_notebook
+---
+
+##Instalacion de paquetes
+```{r}
+install.packages("plotly")
+install.packages("ggplot2")
+```
+
+##Carga de Paquetes
+```{r}
+library(plotly)
+library(ggplot2)
+```
+
+#Graficos
+
+###31.Grafico de la consulta N°1
+```{r}
+g1<-ggplot(c1, aes(x=fecha, y=cantidad_docenas))+geom_line()
+p1<-plot_ly(c1, x = ~fecha, y = ~cantidad_docenas) %>%
+  add_lines(name = ~"cantidad_docenas")%>%layout(title = "Cantidad docenas producidas")
+p1
+```
+
+###32.Grafico de la consulta N°2
+```{r}
+g2<-ggplot(c2, aes(x=fecha, y=cantidad_material))+geom_line()
+p2<-plot_ly(c2, x = ~fecha, y = ~cantidad_material) %>%
+  add_lines(name = ~"cantidad_material")%>%layout(title = "Cantidad material semanal")
+p2
+```
+
+###33.Grafico de las consulta N°3
+```{r}
+g3<-ggplot(c3, aes(x=mes, y=cantidad_docenas, colour=tallas))+geom_jitter()
+p3<-ggplotly(g3)
+p3
+```
+
+###34.Grafico de la consulta N°4
+```{r}
+g4<-ggplot(c4, aes(x=mes, y=cantidad_material, colour=tallas))+geom_jitter()
+p4<-ggplotly(g4)
+p4
+```
+
+###35.Grafico de la consulta N°5
+```{r}
+g5<-ggplot(c5, aes(x=anio, y=cantidad_docenas, colour=campania))+geom_line()
+p5<-ggplotly(g5)
+p5
+```
+
+###36.Grafico de la consulta N°6
+```{r}
+p6<-plot_ly(c6, x=~campania,y=~cantidad_docenas, type = "bar")
+p6
+```
+
+###37.Grafico de la consulta N°7
+```{r}
+g7<-ggplot(c7, aes(x=tallas, y=cantidad_material))+geom_bar(stat = "identity")
+p7<-ggplotly(g7)
+p7
+```
+
+###38.Grafico de la consulta N°8
+```{r}
+g8<-ggplot(c8, aes(x=anio, y=cantidad_docenas, colour=color))+geom_jitter(aes())
+p8<-ggplotly(g8)
+p8
+```
+
+###39.Grafico de la consulta N°9
+```{r}
+g9<-ggplot(c9, aes(x=campania, y=cantidad_docenas, colour=color))+geom_jitter()
+p9<-ggplotly(g9)
+p9
+```
+
+###40.Grafico de la consulta N°10
+```{r}
+g10<-ggplot(c10, aes(x=tallas, y=cantidad_docenas, colour=color))+geom_jitter()
+p10<-ggplotly(g10)
+p10
+```
+
+###41.Grafico de la consulta N°11
+```{r}
+g11<-ggplot(c11, aes(x=cantidad_docenas, y=cantidad_material, colour=color))+geom_point()
+p11<-ggplotly(g11)
+p11
+```
+
+###42.Grafico de la consulta N°12
+```{r}
+g12<-ggplot(c12, aes(x=cantidad_docenas, y=cantidad_material, colour=anio))+geom_point()
+p12<-ggplotly(g12)
+p12
+```
+
+###43.Grafico de la consulta N°13
+```{r}
+g13<-ggplot(c13, aes(x=modelo, y=cantidad_docenas))+geom_jitter()
+p13<-ggplotly(g13)
+p13
+```
+
+###44.Grafico de la consulta N°14
+```{r}
+g14<-ggplot(c14, aes(x=anio, y=n))+geom_line()
+p14<-ggplotly(g14)
+p14
+```
+
+###45.Grafico de la consulta N°15
+```{r}
+g15<-ggplot(c15, aes(x=cantidad_docenas, y=cantidad_material, colour= color))+geom_bar(stat = "Identity")
+p15<-ggplotly(g15)
+p15
+```
+
+###46.Grafico de la consulta N°16
+```{r}
+p16<-plot_ly(c16, x=~modelo,y=~cantidad_docenas)%>%add_lines(name = ~"campania")%>%layout(title = "Cantidad de docenas por modelo en la campañia de Escolar ")
+p16
+```
+
+###47.Grafico de la consulta N°17
+```{r}
+p17<-plot_ly(c17, x=~tallas,y=~inversion_planta, color = ~campania)%>%layout(title = "Inversion en plantas segun las tallas en cada campañia")
+p17
+```
+
+###48.Grafico de la consulta N°18
+```{r}
+p18<-plot_ly(c18, x=~anio,y=~inversion_material, color = ~campania, type = "histogram")%>%layout(title = "Inversion de material en cada año segun la campañia")
+p18
+```
+
+###49.Grafico de la cconsulta N°19
+```{r}
+p19<-plot_ly(c19, x=~anio,y=~inversion_mano_obra, color = ~campania, type = "histogram")%>%layout(title = "Inversion de mano de obra en cada año segun la campañia")
+p19
+```
+
+###50.Grafico de la consulta N°20
+```{r}
+p20<-plot_ly(c20, x=~mes,y=~inversion_total, type = "bar")%>%layout(title = "Inversion total en el año 2015 de cada mes")
+p20
+```
+
+###51.Grafico de la consulta N°21
+```{r}
+p21<-plot_ly(c21, x = ~anio, y = ~cant_material,color = ~campania, name = 'cantidad_material', type = 'bar') %>%add_trace(y = ~inversion_material, name = 'inversion_material', type = 'bar')
+p21
+```
+
+###52.Grafico de la consulta N°22
+```{r}
+p22<-plot_ly(c22,x=~cant_docenas,y=~inversion_planta,color = ~anio, type = 'bar')
+p22
+```
+
+###53.Grafico de la consulta N°23
+```{r}
+p23<-plot_ly(c23,x=~anio,y=~ganancia_total,color = ~campania, type = 'scatter',mode = 'markers')%>%layout(title = "Ganancia total de cada año segun campañia")
+p23
+```
+
+###54.Grafico de la consulta N°24
+```{r}
+p24<-plot_ly(c24,x=~mes,y=~ganancia,color = ~anio, type = 'scatter',mode = 'markers')%>%layout(title = "Ganancia total de cada año segun mes")
+p24
+```
+
+###55.Grafico de la consulta N°25
+```{r}
+p25<-plot_ly(c25, x = ~anio, y = ~cantidad_docenas,color = ~campania, name = 'cantidad_docenas', type = 'bar') %>%add_trace(y = ~ganancia_docena, name = 'ganancia_docena',type='bar')
+p25
+```
+
+###56.Grafico de la consulta N°26
+```{r}
+p26<-plot_ly(c26, x = ~anio, y = ~cantidad_docenas,color = ~tallas, name = 'cantidad_docenas', type = 'bar') %>%add_trace(y = ~ganancia_tallas, name = 'ganancia_tallas',type='bar')
+p26
+```
+
+###57.Grafico de la consulta N°27
+```{r}
+p27<-plot_ly(c27, x = ~anio, y = ~ganancia_total,color = ~anio, colors = "Set1",type = 'scatter',
+  mode = 'markers')
+p27
+```
+
+###58.Grafico de la consulta N°28
+```{r}
+p28<-plot_ly(c28, x = ~anio, y = ~cantidad_docenas,color = ~campania, name = 'cantidad_docenas', type = 'bar') %>%add_trace(y = ~inversion_otros, name = 'inversion_otros',type='bar')
+p28
+```
+
+###59.Grafico de la consulta N°29
+```{r}
+p29<-plot_ly(c29, x = ~mes, y = ~ganancia_total,split = ~anio,color = ~campania, name = 'ganancia_total', type = 'bar')%>%layout(title = "Ganancia total en la campaña solo de charol en cada año")
+p29
+```
+
+###60. Grafico de la consulgta N°30
+```{r}
+p30<-plot_ly(c30, x = ~anio, y = ~inversion_total,name = 'inversion_total', colors = "Set1",type = 'scatter',
+  mode = 'line')
+p30
+```
